@@ -1,0 +1,37 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "es6": true
+    },
+    "plugins": ["react"], // eslint-plugin-react
+    "parserOptions": {
+        "ecmaFeatures": {
+            // eslint-plugin-react
+            "jsx": true
+        }
+    },
+    "extends": [
+        "eslint:recommended", // eslint-plugin-react
+        "plugin:react/recommended", // eslint-plugin-react
+        "airbnb" // eslint-config-airbnb
+    ],
+    "rules": {
+        // eslint-plugin-react rule - allow JSX in files with extension '.js'
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+
+        // eslint rule - allow variables to be used before they are defined.
+        // This is primarily used to allow 'styles' variables to be declared
+        // at the end of the file since they are not the 1st you want to see in
+        // a component.
+        "no-use-before-define": ["error", { "variables": false }],
+
+        // eslint and eslint-plugin-react rules - enfore 4 spaces indentation
+        "indent": ["error", 4],
+        "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+
+        // do not enforce developer to write components as pure functions (if they can be)
+        // instead of classes
+        "react/prefer-stateless-function": ["off"]
+    }
+}
