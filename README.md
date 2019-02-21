@@ -9,4 +9,4 @@ cd react-native-form-builder
 npm install
 react-native run-ios
 ```
-I'm currently preparing a series of blog posts in the [DEV Community](https://dev.to) - wip.
+I'm currently preparing a series of blog posts in the [DEV Community](https://dev.to). Both the repo and the posts are a WIP at the moment.
