@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet,
-    KeyboardAvoidingView,
-    Text,
-    Keyboard,
-    TextInput,
-    TouchableOpacity,
-    Alert,
+    StyleSheet, KeyboardAvoidingView, Text, Keyboard, Alert,
 } from 'react-native';
+
+import FormTextInput from './js/components/FormTextInput';
+import FormButton from './js/components/FormButton';
 
 export default class App extends Component {
     constructor(props) {
@@ -64,32 +61,26 @@ export default class App extends Component {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <Text style={styles.screenTitle}>Salary Calculator</Text>
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="$/hour"
+                <FormTextInput
+                    placeholder="$0"
                     keyboardType="numeric"
                     returnKeyType="done"
                     blurOnSubmit
                     onChangeText={text => this.setState({ hourlyRate: text })}
                     value={hourlyRate}
+                    labelText="Hourly Rate"
                 />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Hours/week"
+                <FormTextInput
+                    placeholder="0"
                     keyboardType="numeric"
                     returnKeyType="done"
                     blurOnSubmit
                     onChangeText={text => this.setState({ hoursPerWeek: text })}
                     value={hoursPerWeek}
+                    labelText="Hours / week"
                 />
-
-                <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-                    <Text style={styles.buttonText}>Calculate</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button} onPress={this.resetForm}>
-                    <Text style={styles.buttonText}>Reset</Text>
-                </TouchableOpacity>
+                <FormButton onPress={this.handleSubmit}>Calculate</FormButton>
+                <FormButton onPress={this.resetForm}>Reset</FormButton>
             </KeyboardAvoidingView>
         );
     }
@@ -107,29 +98,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         color: '#FFF',
-    },
-    textInput: {
-        height: 40,
-        borderColor: '#FFF',
-        borderWidth: 1,
-        borderRadius: 3,
-        backgroundColor: '#FFF',
-        paddingHorizontal: 10,
-        marginBottom: 10,
-        fontSize: 18,
-        color: '#3F4EA5',
-    },
-    button: {
-        backgroundColor: '#FD6592',
-        borderRadius: 3,
-        height: 40,
-        marginBottom: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#FFF',
-        fontWeight: 'bold',
-        fontSize: 16,
     },
 });
