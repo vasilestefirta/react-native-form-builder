@@ -1,86 +1,81 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet, KeyboardAvoidingView, Text, Keyboard, Alert,
+    StyleSheet, KeyboardAvoidingView, Text, Alert,
 } from 'react-native';
 
-import FormTextInput from './js/components/FormTextInput';
-import FormButton from './js/components/FormButton';
+import FormBuilder from './js/components/FormBuilder';
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
+    getFormFields = () => {
+        const inputProps = {
+            placeholder: '0',
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            keyboardType: 'numeric',
+            returnKeyType: 'done',
+        };
 
-        // define the initial state, so we can use it later
-        // when we'll need to reset the form
-        this.initialState = { hourlyRate: '', hoursPerWeek: '' };
+        const formFields = [
+            [
+                {
+                    name: 'hourlyRate',
+                    label: 'Hourly Rate',
+                    type: 'text',
+                    inputProps,
+                },
+                {
+                    name: 'hoursPerWeek',
+                    label: 'Hours / Week',
+                    type: 'text',
+                    inputProps,
+                },
+            ],
+            [
+                {
+                    name: 'daysPerWeek',
+                    label: 'Days / Week',
+                    type: 'text',
+                    inputProps,
+                },
+            ],
+        ];
 
-        this.state = this.initialState;
-    }
+        return formFields;
+    };
 
     /**
      * Grab user's input data and do the math.
      */
-    handleSubmit = () => {
+    handleSubmit = (state) => {
         // using Javascript object destructuring to
         // get user's input data from the state.
-        const { hourlyRate, hoursPerWeek } = this.state;
+        const { hourlyRate, hoursPerWeek, daysPerWeek } = state;
 
-        // hide the keyboard
-        // NOTE: the keyboard seems to show up after being dismissed
-        //       when using the Alert react native component.
-        //       Not a big deal at the moment (this is fine 😜).
-        Keyboard.dismiss();
-
-        // make sure we have some numeric values to work with
-        if (!parseFloat(hourlyRate) || !parseFloat(hoursPerWeek)) {
-            Alert.alert('Input error', 'Please input some positive numeric values.');
-            return;
-        }
-
-        // do the Math
-        const annualIncome = Math.abs(parseFloat(hourlyRate) * parseFloat(hoursPerWeek) * 52);
+        const weeksPerYear = 52;
+        const hoursPerDay = Math.ceil(parseFloat(hoursPerWeek) / parseFloat(daysPerWeek));
+        const weeklyIncome = Math.abs(
+            parseFloat(hourlyRate) * hoursPerDay * parseFloat(daysPerWeek),
+        );
+        const annualIncome = Math.abs(
+            parseFloat(hourlyRate) * parseFloat(hoursPerWeek) * weeksPerYear,
+        );
 
         // show results
         Alert.alert(
-            'Your input and result',
-            `$/hour: ${hourlyRate},\n Hours/week: ${hoursPerWeek}, \n Annual Income: $${annualIncome}`,
+            'Results',
+            `\nWeekly Income: $${weeklyIncome}, \n Annual Income: $${annualIncome}`,
         );
     };
 
-    /**
-     * Reset the form and hide the keyboard.
-     */
-    resetForm = () => {
-        Keyboard.dismiss();
-        this.setState(this.initialState);
-    };
-
     render() {
-        const { hourlyRate, hoursPerWeek } = this.state;
-
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <Text style={styles.screenTitle}>Salary Calculator</Text>
-                <FormTextInput
-                    placeholder="$0"
-                    keyboardType="numeric"
-                    returnKeyType="done"
-                    blurOnSubmit
-                    onChangeText={text => this.setState({ hourlyRate: text })}
-                    value={hourlyRate}
-                    labelText="Hourly Rate"
+                <FormBuilder
+                    formFieldsRows={this.getFormFields()}
+                    handleSubmit={this.handleSubmit}
+                    submitBtnTitle="Calculate"
                 />
-                <FormTextInput
-                    placeholder="0"
-                    keyboardType="numeric"
-                    returnKeyType="done"
-                    blurOnSubmit
-                    onChangeText={text => this.setState({ hoursPerWeek: text })}
-                    value={hoursPerWeek}
-                    labelText="Hours / week"
-                />
-                <FormButton onPress={this.handleSubmit}>Calculate</FormButton>
-                <FormButton onPress={this.resetForm}>Reset</FormButton>
             </KeyboardAvoidingView>
         );
     }
@@ -90,7 +85,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         backgroundColor: '#3F4EA5',
     },
     screenTitle: {

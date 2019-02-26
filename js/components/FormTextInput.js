@@ -17,7 +17,7 @@ class FormTextInput extends React.Component {
         return (
             <View style={styles.inputWrapper}>
                 {labelText && <Text style={styles.label}>{labelText}</Text>}
-                <TextInput style={styles.textInput} {...inputProps} />
+                <TextInput style={styles.textInput} blurOnSubmit {...inputProps} />
             </View>
         );
     }
@@ -33,8 +33,9 @@ FormTextInput.defaultProps = {
 
 const styles = StyleSheet.create({
     inputWrapper: {
+        flex: 1,
         marginBottom: 15,
-        flexDirection: 'column',
+        paddingHorizontal: 10,
     },
     textInput: {
         height: 40,
