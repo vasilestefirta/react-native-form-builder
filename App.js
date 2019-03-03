@@ -63,7 +63,7 @@ export default class App extends Component {
         // show results
         Alert.alert(
             'Results',
-            `\nWeekly Income: $${weeklyIncome}, \n Annual Income: $${annualIncome}`,
+            `Weekly Income: $${weeklyIncome}, \n Annual Income: $${annualIncome}`,
         );
     };
 

@@ -8,10 +8,14 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
  * @param {obj} props
  */
 const FormButton = (props) => {
-    const { children, onPress } = props;
+    const { children, onPress, disabled } = props;
 
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity
+            style={[styles.button, disabled && styles.buttonDisabled]}
+            onPress={onPress}
+            disabled={disabled}
+        >
             <Text style={styles.buttonText}>{children}</Text>
         </TouchableOpacity>
     );
@@ -20,10 +24,12 @@ const FormButton = (props) => {
 FormButton.propTypes = {
     onPress: PropTypes.func,
     children: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
 };
 
 FormButton.defaultProps = {
     onPress: f => f,
+    disabled: false,
 };
 
 const styles = StyleSheet.create({
@@ -40,6 +46,9 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    buttonDisabled: {
+        opacity: 0.5,
     },
 });
 

@@ -58,11 +58,20 @@ class FormBuilder extends React.Component {
         const isFilled = formFields.every(field => !!this.state[field.name]);
         return isFilled;
     };
+
+    /**
+     * Check if at least one field has been filled out.
+     */
+    hasDirtyFormData = () => {
+        const formFields = this.getFormFields();
+        const isDirty = formFields.some(field => !!this.state[field.name]);
+        return isDirty;
+    };
     /* eslint-enable react/destructuring-assignment */
 
     /**
      * Attempt to submit the form if all fields have been
-     * properly field out.
+     * properly filled out.
      */
     attemptFormSubmission = () => {
         const { handleSubmit } = this.props;
@@ -109,8 +118,15 @@ class FormBuilder extends React.Component {
                 ))}
                 {/* eslint-enable react/no-array-index-key */}
 
-                <FormButton onPress={this.attemptFormSubmission}>{submitBtnTitle}</FormButton>
-                <FormButton onPress={this.resetForm}>Reset</FormButton>
+                <FormButton
+                    onPress={this.attemptFormSubmission}
+                    disabled={!this.hasValidFormData()}
+                >
+                    {submitBtnTitle}
+                </FormButton>
+                <FormButton onPress={this.resetForm} disabled={!this.hasDirtyFormData()}>
+                    Reset
+                </FormButton>
             </View>
         );
     }
