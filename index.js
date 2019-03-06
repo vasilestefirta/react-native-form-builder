@@ -1,10 +1,9 @@
-/**
- * @format
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
-
-import {AppRegistry} from 'react-native';
+import { AppRegistry } from 'react-native';
 import App from './App';
-import {name as appName} from './app.json';
+import SignUp from './SignUp';
+import { name as appName } from './app.json';
 
-AppRegistry.registerComponent(appName, () => App);
+// NOTE: set this flag to `true` if you want to see the Salary Calculator form
+const showCalculatorForm = false;
+
+AppRegistry.registerComponent(appName, () => (showCalculatorForm ? App : SignUp));
