@@ -61,6 +61,14 @@ export default class SignUp extends Component {
                     },
                 },
             ],
+            [
+                {
+                    name: 'subscribe',
+                    label: 'Subscribe me to weekly news from Tech world.',
+                    type: 'boolean',
+                    defaultValue: true,
+                },
+            ],
         ];
 
         return formFields;
@@ -71,12 +79,12 @@ export default class SignUp extends Component {
      */
     handleSubmit = (state) => {
         const {
-            firstName, lastName, email, skills, password,
+            firstName, lastName, email, skills, password, subscribe,
         } = state;
 
         Alert.alert(
             'Your info',
-            `First Name: ${firstName}\n Last Name: ${lastName}\n Email: ${email}\n Skills: ${skills} \n Password: ${password}`,
+            `First Name: ${firstName}\n Last Name: ${lastName}\n Email: ${email}\n Skills: ${skills}\n Password: ${password} \n Subscribe: ${subscribe}`,
         );
     };
 
